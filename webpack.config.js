@@ -1,9 +1,10 @@
 const path = require('path')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
-const dotenv = require('dotenv');
-const webpack = require('webpack');
+const EslintWebPackPlugin = require('eslint-webpack-plugin')
+const dotenv = require('dotenv')
+const webpack = require('webpack')
 
-let config = {
+const config = {
 	entry: path.resolve(__dirname, './src/index.jsx'),
 	resolve: {
 		extensions: ['.js', '.jsx'],
@@ -13,7 +14,6 @@ let config = {
 		publicPath: './',
 		filename: 'bundle.js',
 	},
-
 	module: {
 		rules: [
 			{
@@ -37,9 +37,9 @@ let config = {
 			},
 		],
 	},
-
 	devServer: {
-		port: 3001,
+		port: 3000,
+		hot: true,
 		historyApiFallback: true,
 		publicPath: '/',
 		headers: {
@@ -50,6 +50,9 @@ let config = {
 		},
 	},
 	plugins: [
+		new EslintWebPackPlugin({
+			emitWarning: true
+		}),
 		new HtmlWebPackPlugin({
 			template: './public/index.html',
 			filename: 'index.html',
@@ -64,13 +67,13 @@ module.exports = (env, argv) => {
 	if (argv.mode === 'production') {
 		config.devtool = 'source-map'
 	}
-  const currentPath = path.join(__dirname);
-  const basePath = currentPath + `/.env.${argv.mode}`;
-  const fileEnv = dotenv.config({ path: basePath }).parsed;
-  const envKeys = Object.keys(fileEnv).reduce((prev, next) => {
-    prev[`process.env.${next}`] = JSON.stringify(fileEnv[next]);
-    return prev;
-  }, {});
-  config.plugins = [...config.plugins, new webpack.DefinePlugin(envKeys)]
+	const currentPath = path.join(__dirname)
+	const basePath = currentPath + `/.env.${argv.mode}`
+	const fileEnv = dotenv.config({ path: basePath }).parsed
+	const envKeys = Object.keys(fileEnv).reduce((prev, next) => {
+		prev[`process.env.${next}`] = JSON.stringify(fileEnv[next])
+		return prev
+	}, {})
+	config.plugins = [...config.plugins, new webpack.DefinePlugin(envKeys)]
 	return config
 }
