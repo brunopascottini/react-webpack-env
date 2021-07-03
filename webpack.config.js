@@ -1,9 +1,12 @@
+const path = require('path')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 // const Dotenv = require('dotenv-webpack')
 
 module.exports = {
-  entry: './src/index.js',
-
+  entry: path.resolve(__dirname, './src/index.jsx'),
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
   output: {
     path: __dirname + '/dist',
     publicPath: './',
@@ -19,7 +22,6 @@ module.exports = {
           loader: 'babel-loader',
         },
       },
-
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
