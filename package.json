@@ -1,5 +1,5 @@
 {
-    "name": "ReactWebpackBoilerplate",
+    "name": "react_webpack_template",
     "version": "1.0",
     "description": "Boilerplate of a starting react project that uses webpack",
     "main": "index.js",
