@@ -5,6 +5,6 @@ module.exports = {
     jsxSingleQuote: false,
     printWidth: 120,
     tabWidth: 4,
-    tabs: true,
+    useTabs: true,
     endOfLine: 'crlf',
 }
